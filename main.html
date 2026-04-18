@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExamSaaS — India's #1 Online Exam Platform for Education</title>
+  <meta name="description" content="Run online tests, manage students, auto-grade papers and publish results — all from one powerful platform. Built for educational institutes across India." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --accent: #f59e0b;
+      --accent2: #10b981;
+      --bg: #0a0a0f;
+      --bg2: #0f0f1a;
+      --bg3: #13131f;
+      --card: #16162a;
+      --border: rgba(99,102,241,0.18);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --pink: #ec4899;
+      --cyan: #06b6d4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Language toggle: hide/show */
+    [data-lang="hi"] { display: none; }
+    body.lang-hi [data-lang="hi"] { display: inline; }
+    body.lang-hi [data-lang="en"] { display: none; }
+    /* For block elements */
+    div[data-lang="hi"], p[data-lang="hi"], li[data-lang="hi"], span[data-lang="hi"], h1[data-lang="hi"], h2[data-lang="hi"], h3[data-lang="hi"] { display: none; }
+    body.lang-hi div[data-lang="hi"], body.lang-hi p[data-lang="hi"], body.lang-hi li[data-lang="hi"], body.lang-hi span[data-lang="hi"], body.lang-hi h1[data-lang="hi"], body.lang-hi h2[data-lang="hi"], body.lang-hi h3[data-lang="hi"] { display: block; }
+    body.lang-hi div[data-lang="en"], body.lang-hi p[data-lang="en"], body.lang-hi li[data-lang="en"], body.lang-hi span[data-lang="en"], body.lang-hi h1[data-lang="en"], body.lang-hi h2[data-lang="en"], body.lang-hi h3[data-lang="en"] { display: none; }
+    /* flex items */
+    body.lang-hi div.flex-lang[data-lang="hi"] { display: flex; }
+    body.lang-hi div.flex-lang[data-lang="en"] { display: none; }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--pink));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #fff;
+    }
+    .logo-text { font-size: 1.2rem; font-weight: 800; color: #fff; }
+    .logo-text span { color: var(--primary); }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+
+    .nav-cta { display: flex; gap: 12px; align-items: center; }
+
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex; align-items: center; background: rgba(99,102,241,0.12); border: 1px solid var(--border);
+      border-radius: 50px; overflow: hidden; cursor: pointer; margin-right: 8px;
+    }
+    .lang-btn {
+      padding: 6px 14px; font-size: 0.78rem; font-weight: 700; border: none; background: transparent;
+      color: var(--muted); cursor: pointer; transition: all .25s;
+    }
+    .lang-btn.active {
+      background: var(--primary); color: #fff; border-radius: 50px;
+      box-shadow: 0 2px 12px rgba(99,102,241,0.4);
+    }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 24px; border-radius: 10px; font-weight: 600; font-size: 0.9rem;
+      cursor: pointer; text-decoration: none; transition: all .25s; border: none;
+    }
+    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.5); }
+    .btn-lg { padding: 16px 36px; font-size: 1rem; border-radius: 14px; }
+    .btn-accent { background: linear-gradient(135deg, var(--accent), #f97316); color: #fff; box-shadow: 0 4px 20px rgba(245,158,11,0.3); }
+    .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.5); }
+
+    /* ========== HERO ========== */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99,102,241,0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 80% 50%, rgba(236,72,153,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse 40% 40% at 20% 70%, rgba(6,182,212,0.07) 0%, transparent 60%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 50px; padding: 6px 16px; font-size: 0.8rem; font-weight: 600;
+      color: #a5b4fc; margin-bottom: 28px; position: relative; z-index: 1;
+      animation: fadeInDown .6s ease both;
+    }
+    .hero-badge::before {
+      content: ''; width: 7px; height: 7px; background: var(--accent2);
+      border-radius: 50%; animation: pulse-dot 1.5s infinite;
+    }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+
+    h1 {
+      font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 900; line-height: 1.15; letter-spacing: -1.5px;
+      position: relative; z-index: 1;
+      animation: fadeInUp .7s ease .1s both;
+    }
+    h1 .gradient { background: linear-gradient(135deg, #a5b4fc, var(--primary), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h1 .highlight { color: var(--accent); -webkit-text-fill-color: var(--accent); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); max-width: 640px; margin: 20px auto 0;
+      position: relative; z-index: 1; line-height: 1.8;
+      animation: fadeInUp .7s ease .2s both;
+    }
+    .hero-ctas {
+      display: flex; gap: 14px; margin-top: 36px; justify-content: center; flex-wrap: wrap;
+      position: relative; z-index: 1;
+      animation: fadeInUp .7s ease .3s both;
+    }
+    .hero-stats {
+      display: flex; gap: 48px; margin-top: 60px; justify-content: center; flex-wrap: wrap;
+      position: relative; z-index: 1;
+      animation: fadeInUp .7s ease .4s both;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 900; font-family: 'Poppins',sans-serif; color: #fff; }
+    .stat-num span { color: var(--primary); }
+    .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+    .hero-mockup {
+      position: relative; z-index: 1; margin-top: 64px; width: 100%; max-width: 900px;
+      animation: floatUp .8s ease .5s both;
+    }
+    .mockup-frame {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+      padding: 2px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,102,241,0.15);
+    }
+    .mockup-bar {
+      background: #1a1a2e; padding: 12px 16px;
+      display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+    .mockup-url { flex: 1; background: rgba(255,255,255,.05); border-radius: 6px; padding: 4px 12px; font-size: 0.75rem; color: var(--muted); }
+    .mockup-body { padding: 20px; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .m-card {
+      background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+      text-align: left;
+    }
+    .m-card-icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .m-card-title { font-size: 0.8rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .m-card-val { font-size: 1.4rem; font-weight: 900; font-family: 'Poppins',sans-serif; }
+    .m-card-sub { font-size: 0.72rem; color: var(--muted); }
+    .green { color: var(--accent2); } .blue { color: var(--primary); } .yellow { color: var(--accent); }
+
+    /* ========== SECTION COMMON ========== */
+    section { padding: 100px 5%; }
+    .section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 12px; }
+    .section-title { font-family: 'Poppins','Noto Sans Devanagari',sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800; color: #fff; line-height: 1.25; }
+    .section-title .g { background: linear-gradient(135deg, var(--primary), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .section-sub { color: var(--muted); margin-top: 14px; font-size: 1rem; max-width: 600px; line-height: 1.8; }
+    .center { text-align: center; }
+    .center .section-sub { margin: 14px auto 0; }
+
+    /* ========== PROBLEM SECTION ========== */
+    .problems { background: var(--bg2); }
+    .problems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; margin-top: 56px; }
+    .problem-card {
+      background: var(--card); border: 1px solid rgba(236,72,153,0.15); border-radius: 16px; padding: 28px 22px;
+      position: relative; overflow: hidden; transition: transform .25s;
+    }
+    .problem-card:hover { transform: translateY(-4px); }
+    .problem-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--pink), transparent); }
+    .problem-icon { font-size: 2rem; margin-bottom: 14px; }
+    .problem-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .problem-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* ========== FEATURES ========== */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 24px; margin-top: 56px; }
+    .feature-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px;
+      transition: all .3s; position: relative; overflow: hidden;
+    }
+    .feature-card:hover { border-color: rgba(99,102,241,0.5); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+    .feature-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 0% 0%, rgba(99,102,241,0.06), transparent 60%); pointer-events: none; }
+    .feat-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 18px;
+    }
+    .feat-icon.purple { background: rgba(99,102,241,0.15); }
+    .feat-icon.green { background: rgba(16,185,129,0.15); }
+    .feat-icon.yellow { background: rgba(245,158,11,0.15); }
+    .feat-icon.pink { background: rgba(236,72,153,0.15); }
+    .feat-icon.cyan { background: rgba(6,182,212,0.15); }
+    .feat-icon.orange { background: rgba(249,115,22,0.15); }
+    .feat-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .feat-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+    .feat-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .tag { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 50px; }
+    .tag-purple { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+    .tag-green { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+    .tag-yellow { background: rgba(245,158,11,0.15); color: #fcd34d; }
+
+    /* ========== HOW IT WORKS ========== */
+    .how { background: var(--bg2); }
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 56px; max-width: 760px; }
+    .step { display: flex; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 900; color: #fff; box-shadow: 0 4px 16px rgba(99,102,241,0.35);
+    }
+    .step-content h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .step-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ========== AI SECTION ========== */
+    .ai-section {
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(236,72,153,0.06));
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 20px; }
+    .ai-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px;
+      font-family: 'Inter', monospace; font-size: 0.82rem;
+    }
+    .ai-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .ai-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); animation: pulse-dot 1.2s infinite; }
+    .ai-card-header span { font-size: 0.78rem; color: var(--muted); }
+    .ai-prompt { background: rgba(99,102,241,0.1); border-left: 3px solid var(--primary); padding: 12px 14px; border-radius: 0 8px 8px 0; color: #c7d2fe; margin-bottom: 16px; font-style: italic; }
+    .ai-q { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+    .ai-q-text { font-weight: 600; color: #fff; margin-bottom: 8px; line-height: 1.6; }
+    .ai-opt { font-size: 0.78rem; color: var(--muted); padding: 3px 0; }
+    .ai-opt.correct { color: var(--accent2); font-weight: 600; }
+    .ai-features-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+    .ai-features-list li { display: flex; align-items: flex-start; gap: 14px; }
+    .ai-feat-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 10px; background: rgba(99,102,241,0.12); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .ai-feat-title { font-weight: 700; font-size: 0.95rem; color: #fff; }
+    .ai-feat-desc { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    /* ========== TESTIMONIALS ========== */
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; margin-top: 56px; }
+    .testi-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px;
+      transition: transform .25s;
+    }
+    .testi-card:hover { transform: translateY(-4px); }
+    .stars { color: var(--accent); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 14px; }
+    .testi-text { font-size: 0.9rem; color: #cbd5e1; line-height: 1.8; margin-bottom: 20px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; color: #fff; }
+    .testi-name { font-weight: 700; font-size: 0.9rem; color: #fff; }
+    .testi-role { font-size: 0.78rem; color: var(--muted); }
+
+    /* ========== PRICING ========== */
+    .pricing { background: var(--bg2); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 24px; margin-top: 56px; }
+    .price-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 36px;
+      transition: all .3s; position: relative; overflow: hidden;
+    }
+    .price-card.popular {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary), 0 20px 60px rgba(99,102,241,0.2);
+    }
+    .popular-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--pink));
+      color: #fff; font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 50px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .price-name { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 8px; }
+    .price-amount { font-family: 'Poppins',sans-serif; font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1; }
+    .price-amount sup { font-size: 1.2rem; vertical-align: top; margin-top: 8px; }
+    .price-period { font-size: 0.8rem; color: var(--muted); margin-top: 4px; margin-bottom: 24px; }
+    .price-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .price-features li { display: flex; gap: 10px; font-size: 0.88rem; color: #cbd5e1; align-items: flex-start; }
+    .check { color: var(--accent2); font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+    .cross { color: #ef4444; font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ========== FAQ ========== */
+    .faq-list { max-width: 760px; margin: 56px auto 0; display: flex; flex-direction: column; gap: 14px; }
+    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .faq-q { padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 0.95rem; color: #fff; user-select: none; }
+    .faq-q:hover { color: #a5b4fc; }
+    .faq-icon { transition: transform .3s; font-size: 1.1rem; color: var(--primary); }
+    .faq-a { padding: 0 24px; max-height: 0; overflow: hidden; transition: all .3s; font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-item.open .faq-a { max-height: 250px; padding: 0 24px 20px; }
+
+    /* ========== CTA SECTION ========== */
+    .cta-section {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(236,72,153,0.08));
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .cta-section h2 { font-family: 'Poppins','Noto Sans Devanagari',sans-serif; font-size: clamp(1.8rem,3.5vw,3rem); font-weight: 900; color: #fff; line-height: 1.2; }
+    .cta-section h2 span { background: linear-gradient(135deg, var(--primary), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .cta-section p { color: var(--muted); margin: 16px auto 36px; max-width: 560px; font-size: 1rem; line-height: 1.8; }
+    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--bg3); border-top: 1px solid var(--border);
+      padding: 60px 5% 30px;
+    }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+    .footer-brand p { font-size: 0.88rem; color: var(--muted); margin-top: 14px; line-height: 1.8; max-width: 280px; }
+    .footer-col h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 0.82rem; color: var(--muted); }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+    @keyframes floatUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: none; } }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: all .6s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      nav { padding: 0 4%; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 4% 60px; }
+      .ai-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .mockup-body { grid-template-columns: 1fr 1fr; }
+      h1 { font-size: 2.2rem; }
+      .hero-stats { gap: 24px; }
+    }
+    @media (max-width: 480px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .mockup-body { grid-template-columns: 1fr; }
+    }
+
+    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.15; }
+    .orb1 { width: 500px; height: 500px; background: var(--primary); top: -100px; right: -150px; }
+    .orb2 { width: 400px; height: 400px; background: var(--pink); bottom: 200px; left: -100px; }
+  </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- ========== NAV ========== -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">Exam<span>SaaS</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features"><span data-lang="en">Features</span><span data-lang="hi">विशेषताएँ</span></a></li>
+    <li><a href="#how"><span data-lang="en">How it Works</span><span data-lang="hi">कैसे काम करता है</span></a></li>
+
+    <li><a href="#faq"><span data-lang="en">FAQ</span><span data-lang="hi">सवाल-जवाब</span></a></li>
+  </ul>
+  <div class="nav-cta">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिं</button>
+    </div>
+    <a href="#demo" class="btn btn-outline"><span data-lang="en">Book Demo</span><span data-lang="hi">डेमो बुक करें</span></a>
+    <a href="#demo" class="btn btn-primary"><span data-lang="en">Get Started →</span><span data-lang="hi">शुरू करें →</span></a>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-badge">
+    <span data-lang="en">🚀 India's Fastest Growing EdTech Platform</span>
+    <span data-lang="hi">🚀 भारत का सबसे तेज़ी से बढ़ता EdTech प्लेटफ़ॉर्म</span>
+  </div>
+
+  <h1 data-lang="en">
+    Take Your Institute<br/>
+    <span class="gradient">Online — Fully Automated</span>
+  </h1>
+  <h1 data-lang="hi">
+    अपने संस्थान को ले जाओ<br/>
+    <span class="gradient">ऑनलाइन — पूरी तरह ऑटोमेटेड</span>
+  </h1>
+
+  <p class="hero-sub" data-lang="en">
+    Run online tests, manage students, auto-grade papers and publish results — all from one powerful platform. Built for <strong style="color:#fff;">educational institutes</strong> across India.
+  </p>
+  <p class="hero-sub" data-lang="hi">
+    ऑनलाइन टेस्ट चलाओ, स्टूडेंट्स मैनेज करो, ऑटो-ग्रेडिंग और रिजल्ट पब्लिश — सब कुछ एक ही प्लेटफ़ॉर्म से। पूरे भारत के <strong style="color:#fff;">शैक्षणिक संस्थानों</strong> के लिए बना।
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#demo" class="btn btn-primary btn-lg">
+      <span data-lang="en">📅 Book a Free Demo</span>
+      <span data-lang="hi">📅 फ्री डेमो बुक करें</span>
+    </a>
+    <a href="#features" class="btn btn-outline btn-lg">
+      <span data-lang="en">See Features →</span>
+      <span data-lang="hi">विशेषताएँ देखें →</span>
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">500<span>+</span></div>
+      <div class="stat-label"><span data-lang="en">Students Served</span><span data-lang="hi">छात्रों ने उपयोग किया</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98<span>%</span></div>
+      <div class="stat-label"><span data-lang="en">Time Saved vs Paper</span><span data-lang="hi">पेपर की तुलना में समय बचा</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0<span>₹</span></div>
+      <div class="stat-label"><span data-lang="en">Setup Cost</span><span data-lang="hi">सेटअप लागत</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24<span>/7</span></div>
+      <div class="stat-label"><span data-lang="en">Platform Uptime</span><span data-lang="hi">प्लेटफ़ॉर्म अपटाइम</span></div>
+    </div>
+  </div>
+
+  <!-- Mockup -->
+  <div class="hero-mockup">
+    <div class="mockup-frame">
+      <div class="mockup-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="mockup-url">🔒 examsaas.in/org/your-institute</div>
+      </div>
+      <div class="mockup-body">
+        <div class="m-card">
+          <div class="m-card-icon">📝</div>
+          <div class="m-card-title">
+            <span data-lang="en">Active Tests</span><span data-lang="hi">सक्रिय टेस्ट</span>
+          </div>
+          <div class="m-card-val blue">12</div>
+          <div class="m-card-sub"><span data-lang="en">3 live right now</span><span data-lang="hi">3 अभी लाइव हैं</span></div>
+        </div>
+        <div class="m-card">
+          <div class="m-card-icon">👨‍🎓</div>
+          <div class="m-card-title">
+            <span data-lang="en">Total Students</span><span data-lang="hi">कुल छात्र</span>
+          </div>
+          <div class="m-card-val green">248</div>
+          <div class="m-card-sub"><span data-lang="en">across 4 batches</span><span data-lang="hi">4 बैचों में</span></div>
+        </div>
+        <div class="m-card">
+          <div class="m-card-icon">🏆</div>
+          <div class="m-card-title">
+            <span data-lang="en">Avg Accuracy</span><span data-lang="hi">औसत सटीकता</span>
+          </div>
+          <div class="m-card-val yellow">72%</div>
+          <div class="m-card-sub"><span data-lang="en">up 8% this week</span><span data-lang="hi">इस हफ्ते 8% बढ़ा</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PROBLEMS ========== -->
+<section class="problems" id="problems">
+  <div class="center reveal">
+    <div class="section-label"><span data-lang="en">The Problem</span><span data-lang="hi">समस्या</span></div>
+    <h2 class="section-title" data-lang="en">What Your Institute <span class="g">Is Struggling With</span></h2>
+    <h2 class="section-title" data-lang="hi">आपका संस्थान <span class="g">किन समस्याओं से जूझ रहा है?</span></h2>
+    <p class="section-sub" data-lang="en">These problems exist in every educational institute. ExamSaaS solves them permanently.</p>
+    <p class="section-sub" data-lang="hi">ये समस्याएँ हर शैक्षणिक संस्थान में होती हैं। ExamSaaS इन्हें स्थायी रूप से हल करता है।</p>
+  </div>
+  <div class="problems-grid">
+    <div class="problem-card reveal">
+      <div class="problem-icon">📄</div>
+      <div class="problem-title"><span data-lang="en">Printing Papers</span><span data-lang="hi">पेपर प्रिंट करना</span></div>
+      <div class="problem-desc"><span data-lang="en">For every test you print, distribute, collect and manage papers — wasting time and money.</span><span data-lang="hi">हर टेस्ट के लिए प्रिंट करो, बांटो, इकट्ठा करो — समय और पैसे दोनों बर्बाद।</span></div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">✋</div>
+      <div class="problem-title"><span data-lang="en">Manual Grading</span><span data-lang="hi">हाथ से चेक करना</span></div>
+      <div class="problem-desc"><span data-lang="en">Checking 100 student papers manually takes days and errors are inevitable.</span><span data-lang="hi">100 छात्रों के पेपर हाथ से चेक करने में दिन लग जाते हैं और गलतियाँ भी होती हैं।</span></div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">📊</div>
+      <div class="problem-title"><span data-lang="en">No Analytics Data</span><span data-lang="hi">कोई डेटा नहीं मिलता</span></div>
+      <div class="problem-desc"><span data-lang="en">Without detailed analytics, you can't identify which students are struggling in which topics.</span><span data-lang="hi">विस्तृत विश्लेषण के बिना, पता नहीं चलता कि कौन सा छात्र कहाँ कमज़ोर है।</span></div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">😤</div>
+      <div class="problem-title"><span data-lang="en">Can't Stop Cheating</span><span data-lang="hi">नकल रोक नहीं पाते</span></div>
+      <div class="problem-desc"><span data-lang="en">Whether online or offline — cheating is a major problem with no good solution until now.</span><span data-lang="hi">ऑनलाइन हो या ऑफलाइन — नकल एक बड़ी समस्या है जिसका अब तक कोई समाधान नहीं था।</span></div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">📱</div>
+      <div class="problem-title"><span data-lang="en">Results on WhatsApp</span><span data-lang="hi">WhatsApp पर रिजल्ट</span></div>
+      <div class="problem-desc"><span data-lang="en">Making result images and sending on WhatsApp groups — unprofessional and time-intensive.</span><span data-lang="hi">रिजल्ट इमेज बनाना और WhatsApp ग्रुप में भेजना — अव्यावसायिक और समय खपाता है।</span></div>
+    </div>
+    <div class="problem-card reveal">
+      <div class="problem-icon">🗂️</div>
+      <div class="problem-title"><span data-lang="en">Student Records</span><span data-lang="hi">छात्र रिकॉर्ड</span></div>
+      <div class="problem-desc"><span data-lang="en">Managing student data in Excel sheets is error-prone and searching is difficult.</span><span data-lang="hi">Excel शीट्स में छात्रों का डेटा — गलतियाँ होती हैं और खोजना भी मुश्किल।</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES ========== -->
+<section id="features">
+  <div class="center reveal">
+    <div class="section-label"><span data-lang="en">Platform Features</span><span data-lang="hi">प्लेटफ़ॉर्म विशेषताएँ</span></div>
+    <h2 class="section-title" data-lang="en">Everything in One <span class="g">Powerful Platform</span></h2>
+    <h2 class="section-title" data-lang="hi">सब कुछ एक <span class="g">शक्तिशाली प्लेटफ़ॉर्म</span> में</h2>
+    <p class="section-sub" data-lang="en">Tests, analytics, AI proctoring, and question generation — everything is already included.</p>
+    <p class="section-sub" data-lang="hi">टेस्ट, एनालिटिक्स, AI प्रॉक्टरिंग, और प्रश्न जनरेशन — सब पहले से शामिल है।</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feat-icon purple">📝</div>
+      <div class="feat-title"><span data-lang="en">Advanced Test Builder</span><span data-lang="hi">एडवांस्ड टेस्ट बिल्डर</span></div>
+      <div class="feat-desc"><span data-lang="en">Create JEE/NEET-style sectional tests with negative marking, custom time limits, and difficulty levels — fully configurable.</span><span data-lang="hi">JEE/NEET जैसे सेक्शनल टेस्ट बनाएं — नेगेटिव मार्किंग, टाइम लिमिट, डिफिकल्टी लेवल — सब कस्टमाइज़ करें।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-purple">Sectional</span>
+        <span class="tag tag-yellow">Negative Marking</span>
+        <span class="tag tag-green">Auto-Schedule</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon green">🤖</div>
+      <div class="feat-title"><span data-lang="en">AI Question Generator</span><span data-lang="hi">AI प्रश्न जनरेटर</span></div>
+      <div class="feat-desc"><span data-lang="en">Type a topic and AI generates bilingual MCQs (English + Hindi) with complete explanations. 30 questions in 2 minutes!</span><span data-lang="hi">टॉपिक टाइप करें — AI ऑटोमैटिक द्विभाषी MCQ बनाता है (इंग्लिश + हिंदी) एक्सप्लेनेशन के साथ। 30 प्रश्न = 2 मिनट!</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-purple">Hindi + English</span>
+        <span class="tag tag-green">With Explanations</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon yellow">⏰</div>
+      <div class="feat-title"><span data-lang="en">Auto Test Scheduling</span><span data-lang="hi">ऑटो टेस्ट शेड्यूलिंग</span></div>
+      <div class="feat-desc"><span data-lang="en">Set a start time — the test goes live automatically. Set an end time — it locks automatically. Zero manual work.</span><span data-lang="hi">स्टार्ट टाइम सेट करें — टेस्ट ऑटोमैटिक लाइव हो जाएगा। एंड टाइम पर ऑटोमैटिक बंद भी। कोई मैनुअल काम नहीं।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-yellow">Auto-Live</span>
+        <span class="tag tag-green">Auto-End</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon pink">📊</div>
+      <div class="feat-title"><span data-lang="en">Instant Auto-Grading</span><span data-lang="hi">तुरंत ऑटो-ग्रेडिंग</span></div>
+      <div class="feat-desc"><span data-lang="en">Score, rank, accuracy — everything is instantly calculated on submission with full negative marking support.</span><span data-lang="hi">सबमिट करते ही स्कोर, रैंक, एक्यूरेसी — सब तुरंत कैलकुलेट हो जाता है, नेगेटिव मार्किंग सहित।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-purple">Live Rank</span>
+        <span class="tag tag-green">Accuracy %</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon cyan">🔍</div>
+      <div class="feat-title"><span data-lang="en">AI Proctoring</span><span data-lang="hi">AI प्रॉक्टरिंग</span></div>
+      <div class="feat-desc"><span data-lang="en">Face detection, multiple face alerts, tab switching detection — all cheating is auto-detected and reported to teachers.</span><span data-lang="hi">फेस डिटेक्शन, मल्टीपल फेस अलर्ट, टैब स्विचिंग — सभी नकल ऑटो-डिटेक्ट होती है और टीचर को रिपोर्ट मिलती है।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-yellow">Face Detection</span>
+        <span class="tag tag-purple">Violation Log</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon orange">📈</div>
+      <div class="feat-title"><span data-lang="en">Deep Analytics</span><span data-lang="hi">गहन विश्लेषण</span></div>
+      <div class="feat-desc"><span data-lang="en">Per-question success rate, student weak topics, batch-wise performance — everything on one dashboard.</span><span data-lang="hi">हर प्रश्न का सक्सेस रेट, छात्रों के कमज़ोर टॉपिक, बैच-वाइज़ परफॉर्मेंस — सब एक डैशबोर्ड पर।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-green">Per-Question Stats</span>
+        <span class="tag tag-purple">Batch Analytics</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon purple">👥</div>
+      <div class="feat-title"><span data-lang="en">Batch Management</span><span data-lang="hi">बैच प्रबंधन</span></div>
+      <div class="feat-desc"><span data-lang="en">Organize students into batches (JEE 2025, NEET Dropper, etc.) and assign specific tests to specific batches.</span><span data-lang="hi">छात्रों को बैचों में ऑर्गेनाइज़ करें (JEE 2025, NEET Dropper, आदि) और विशिष्ट बैचों को टेस्ट असाइन करें।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-yellow">Bulk Import</span>
+        <span class="tag tag-green">CSV Upload</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon green">📧</div>
+      <div class="feat-title"><span data-lang="en">Branded Email System</span><span data-lang="hi">ब्रांडेड ईमेल सिस्टम</span></div>
+      <div class="feat-desc"><span data-lang="en">Students receive professional welcome emails, result notifications — all automatic and branded with your institute name.</span><span data-lang="hi">छात्रों को आपके संस्थान के नाम से प्रोफेशनल वेलकम ईमेल, रिजल्ट नोटिफिकेशन — सब ऑटोमैटिक।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-purple">Auto Notifications</span>
+        <span class="tag tag-green">Your Branding</span>
+      </div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feat-icon cyan">📱</div>
+      <div class="feat-title"><span data-lang="en">Mobile App</span><span data-lang="hi">मोबाइल ऐप</span></div>
+      <div class="feat-desc"><span data-lang="en">Students can take tests on Android and iOS. At home or on the go — no restrictions.</span><span data-lang="hi">छात्र Android और iOS ऐप से भी टेस्ट दे सकते हैं। घर हो या बाहर — कोई रोक नहीं।</span></div>
+      <div class="feat-tags">
+        <span class="tag tag-yellow">Android</span>
+        <span class="tag tag-purple">iOS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== AI SECTION ========== -->
+<section class="ai-section">
+  <div class="ai-grid">
+    <div class="reveal">
+      <div class="section-label"><span data-lang="en">AI Power</span><span data-lang="hi">AI शक्ति</span></div>
+      <h2 class="section-title" data-lang="en">Generate Questions <span class="g">with AI —</span><br/>in 2 Minutes</h2>
+      <h2 class="section-title" data-lang="hi">AI से प्रश्न बनाएं <span class="g">— सिर्फ</span><br/>2 मिनट में</h2>
+      <p class="section-sub" data-lang="en">Just type a topic — AI does the rest. Full bilingual MCQs with correct answers and explanations, ready to publish.</p>
+      <p class="section-sub" data-lang="hi">सिर्फ टॉपिक लिखना है — बाकी सब AI करता है। पूरी तरह द्विभाषी MCQs सही उत्तर और व्याख्या के साथ, प्रकाशित करने के लिए तैयार।</p>
+      <ul class="ai-features-list" style="margin-top:32px;">
+        <li>
+          <div class="ai-feat-icon">🌐</div>
+          <div>
+            <div class="ai-feat-title"><span data-lang="en">Hindi + English Together</span><span data-lang="hi">हिंदी + इंग्लिश एक साथ</span></div>
+            <div class="ai-feat-desc"><span data-lang="en">One click generates bilingual questions — no separate translation needed.</span><span data-lang="hi">एक क्लिक में द्विभाषी प्रश्न — अलग से अनुवाद करने की ज़रूरत नहीं।</span></div>
+          </div>
+        </li>
+        <li>
+          <div class="ai-feat-icon">💡</div>
+          <div>
+            <div class="ai-feat-title"><span data-lang="en">Ready-to-Publish Explanations</span><span data-lang="hi">तैयार एक्सप्लेनेशन</span></div>
+            <div class="ai-feat-desc"><span data-lang="en">Every question comes with detailed explanations — so students also get review material instantly.</span><span data-lang="hi">हर प्रश्न के साथ विस्तृत व्याख्या — छात्रों को तुरंत रिव्यू मटेरियल भी मिलता है।</span></div>
+          </div>
+        </li>
+        <li>
+          <div class="ai-feat-icon">🔢</div>
+          <div>
+            <div class="ai-feat-title"><span data-lang="en">Math Formulas Supported</span><span data-lang="hi">गणित फ़ॉर्मूला सपोर्ट</span></div>
+            <div class="ai-feat-desc"><span data-lang="en">Integrals, matrices, Greek symbols — all render beautifully using MathJax.</span><span data-lang="hi">इंटीग्रल, मैट्रिक्स, ग्रीक सिंबल — सब MathJax से सुंदर रूप में दिखते हैं।</span></div>
+          </div>
+        </li>
+        <li>
+          <div class="ai-feat-icon">⚡</div>
+          <div>
+            <div class="ai-feat-title"><span data-lang="en">Bulk CSV Import Too</span><span data-lang="hi">बल्क CSV इम्पोर्ट भी</span></div>
+            <div class="ai-feat-desc"><span data-lang="en">Already have 100+ questions? Import them in one click via CSV.</span><span data-lang="hi">पहले से 100+ प्रश्न हैं? CSV से एक क्लिक में इम्पोर्ट करें।</span></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-card-header">
+        <div class="ai-dot"></div>
+        <span>AI Question Generator — Live Preview</span>
+      </div>
+      <div class="ai-prompt">"Generate 5 MCQs on Newton's Laws of Motion for JEE level in Hindi and English."</div>
+      <div class="ai-q">
+        <div class="ai-q-text">Q1. A body of mass 5kg is acted upon by a net force of 20N. Its acceleration is:<br/><span style="color:#a5b4fc;">5kg की वस्तु पर 20N बल लगता है। त्वरण क्या होगा?</span></div>
+        <div class="ai-opt correct">✅ A) 4 m/s²</div>
+        <div class="ai-opt">B) 2 m/s²</div>
+        <div class="ai-opt">C) 10 m/s²</div>
+        <div class="ai-opt">D) 8 m/s²</div>
+      </div>
+      <div class="ai-q">
+        <div class="ai-q-text">Q2. Newton's third law states that action and reaction forces act on:<br/><span style="color:#a5b4fc;">न्यूटन का तीसरा नियम कहता है कि क्रिया और प्रतिक्रिया बल लगते हैं:</span></div>
+        <div class="ai-opt">A) Same body in same direction</div>
+        <div class="ai-opt correct">✅ B) Different bodies in opposite directions</div>
+        <div class="ai-opt">C) Same body in opposite directions</div>
+        <div class="ai-opt">D) Different bodies in same direction</div>
+      </div>
+      <div style="text-align:center; margin-top:16px; font-size:0.78rem; color:var(--muted);">⚡ 5 more questions generated... Auto-saved to Question Bank</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="how" id="how">
+  <div class="reveal">
+    <div class="section-label"><span data-lang="en">Simple Process</span><span data-lang="hi">सरल प्रक्रिया</span></div>
+    <h2 class="section-title" data-lang="en">From Setup to Results — <span class="g">Fully Automatic</span></h2>
+    <h2 class="section-title" data-lang="hi">सेटअप से रिजल्ट तक — <span class="g">पूरी तरह ऑटोमैटिक</span></h2>
+    <p class="section-sub" data-lang="en">Your entire exam system is ready in 5 simple steps.</p>
+    <p class="section-sub" data-lang="hi">5 सरल चरणों में आपका पूरा परीक्षा सिस्टम तैयार हो जाता है।</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3 data-lang="en">🏢 Set Up Your Organization</h3>
+        <h3 data-lang="hi">🏢 अपना संगठन सेटअप करें</h3>
+        <p data-lang="en">Set your institute name, logo and unique URL (e.g., examsaas.in/org/your-institute). Ready in 5 minutes.</p>
+        <p data-lang="hi">अपने संस्थान का नाम, लोगो और यूनिक URL सेट करें (जैसे examsaas.in/org/your-institute)। 5 मिनट में तैयार।</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3 data-lang="en">👥 Add Students & Teachers</h3>
+        <h3 data-lang="hi">👥 छात्र और शिक्षक जोड़ें</h3>
+        <p data-lang="en">Import 200+ students in one click via CSV file. Everyone gets an automatic welcome email with a setup link.</p>
+        <p data-lang="hi">CSV फ़ाइल से एक क्लिक में 200+ छात्र इम्पोर्ट करें। सभी को ऑटोमैटिक वेलकम ईमेल मिलेगी।</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3 data-lang="en">📝 Create Tests (With AI!)</h3>
+        <h3 data-lang="hi">📝 टेस्ट बनाएं (AI से!)</h3>
+        <p data-lang="en">Type a topic → AI generates questions → set marking scheme → set schedule. Done!</p>
+        <p data-lang="hi">टॉपिक टाइप करें → AI प्रश्न बनाएगा → मार्किंग स्कीम सेट करें → शेड्यूल सेट करें। बस हो गया!</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3 data-lang="en">⏰ Test Goes Live Automatically</h3>
+        <h3 data-lang="hi">⏰ टेस्ट ऑटोमैटिक लाइव होगा</h3>
+        <p data-lang="en">At the scheduled time, the test goes live automatically — and locks when time ends. No manual work.</p>
+        <p data-lang="hi">निर्धारित समय पर टेस्ट ऑटोमैटिक लाइव हो जाता है — और समय खत्म होने पर ऑटो बंद। कोई मैनुअल काम नहीं।</p>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h3 data-lang="en">📊 Publish Results — Students Get Notified</h3>
+        <h3 data-lang="hi">📊 रिजल्ट प्रकाशित करें — छात्रों को नोटिफिकेशन</h3>
+        <p data-lang="en">One click to disclose results. All students get an automatic email with a dashboard link. Full analytics ready.</p>
+        <p data-lang="hi">एक क्लिक से रिजल्ट जारी करें। सभी छात्रों को डैशबोर्ड लिंक के साथ ऑटोमैटिक ईमेल मिलेगी। पूर्ण एनालिटिक्स तैयार।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section id="testimonials">
+  <div class="center reveal">
+    <div class="section-label"><span data-lang="en">Testimonials</span><span data-lang="hi">प्रशंसापत्र</span></div>
+    <h2 class="section-title" data-lang="en">Coaches Who Are <span class="g">Already Using ExamSaaS</span></h2>
+    <h2 class="section-title" data-lang="hi">शिक्षक जो पहले से <span class="g">ExamSaaS उपयोग कर रहे हैं</span></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text" data-lang="en">"We used to spend 4 hours printing papers and 2 days checking results. Now everything is done in 10 minutes. ExamSaaS has completely changed our workflow!"</p>
+      <p class="testi-text" data-lang="hi">"पहले पेपर प्रिंट करने में 4 घंटे और रिजल्ट चेक करने में 2 दिन लगते थे। अब सब कुछ 10 मिनट में हो जाता है। ExamSaaS ने हमारी ज़िंदगी बदल दी!"</p>
+      <div class="testi-author">
+        <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">R</div>
+        <div>
+          <div class="testi-name">Rajesh Sharma</div>
+          <div class="testi-role"><span data-lang="en">Director, RS Physics Academy, Delhi</span><span data-lang="hi">निदेशक, RS फिज़िक्स एकेडमी, दिल्ली</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text" data-lang="en">"The AI question generator is amazing. I typed 'Electrochemistry for NEET' and got 20 questions ready — in Hindi too! Truly saved me hours of work."</p>
+      <p class="testi-text" data-lang="hi">"AI प्रश्न जनरेटर शानदार है। मैंने टॉपिक दिया 'NEET के लिए इलेक्ट्रोकेमिस्ट्री' और 20 प्रश्न तैयार मिल गए — हिंदी में भी! सच में घंटों का काम बचा।"</p>
+      <div class="testi-author">
+        <div class="avatar" style="background:linear-gradient(135deg,#10b981,#059669);">P</div>
+        <div>
+          <div class="testi-name">Priya Verma</div>
+          <div class="testi-role"><span data-lang="en">Chemistry Teacher, Target NEET Institute</span><span data-lang="hi">केमिस्ट्री शिक्षिका, Target NEET संस्थान</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text" data-lang="en">"Students now know their rank and weak areas. Analytics helped us change our teaching patterns. We clearly saw improvement in batch results!"</p>
+      <p class="testi-text" data-lang="hi">"अब छात्रों को पता है उनकी रैंक और कमज़ोर क्षेत्र। एनालिटिक्स से हमने टीचिंग पैटर्न भी बदला। बैच रिजल्ट्स में स्पष्ट सुधार दिखा!"</p>
+      <div class="testi-author">
+        <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706);">A</div>
+        <div>
+          <div class="testi-name">Amit Gupta</div>
+          <div class="testi-role"><span data-lang="en">Founder, Gupta's JEE Academy, Jaipur</span><span data-lang="hi">संस्थापक, गुप्ता JEE एकेडमी, जयपुर</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ========== FAQ ========== -->
+<section id="faq">
+  <div class="center reveal">
+    <div class="section-label"><span data-lang="en">FAQ</span><span data-lang="hi">अक्सर पूछे जाने वाले प्रश्न</span></div>
+    <h2 class="section-title" data-lang="en">Your <span class="g">Common Questions</span></h2>
+    <h2 class="section-title" data-lang="hi">आपके <span class="g">सामान्य प्रश्न</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">Do students need to download any app?</span><span data-lang="hi">क्या छात्रों को कोई ऐप डाउनलोड करनी पड़ेगी?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">No! Students can take tests directly in their browser. A mobile app is also optionally available for both Android and iOS.</span>
+        <span data-lang="hi">नहीं! छात्र सीधे ब्राउज़र से टेस्ट दे सकते हैं। मोबाइल ऐप भी वैकल्पिक रूप से Android और iOS दोनों के लिए उपलब्ध है।</span>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">Can questions be created in Hindi?</span><span data-lang="hi">क्या हिंदी में भी प्रश्न बन सकते हैं?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">Absolutely! The platform is fully bilingual — it supports English and Hindi questions, options and explanations. AI also generates in both languages simultaneously.</span>
+        <span data-lang="hi">बिल्कुल! प्लेटफ़ॉर्म पूरी तरह द्विभाषी है — यह इंग्लिश और हिंदी दोनों में प्रश्न, विकल्प और व्याख्या का समर्थन करता है। AI भी दोनों भाषाओं में एक साथ जनरेट करता है।</span>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">How do you prevent cheating?</span><span data-lang="hi">नकल कैसे रोकेंगे?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">Built-in AI proctoring includes face detection, multiple faces alert, tab switching detection, and screen share monitoring. Every violation is automatically logged and shown in the teacher's report.</span>
+        <span data-lang="hi">बिल्ट-इन AI प्रॉक्टरिंग में फेस डिटेक्शन, मल्टीपल फेस अलर्ट, टैब स्विचिंग डिटेक्शन, स्क्रीन शेयर मॉनिटरिंग शामिल है। हर उल्लंघन ऑटोमैटिक लॉग होता है और शिक्षक को रिपोर्ट में दिखता है।</span>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">Can I import my existing question banks?</span><span data-lang="hi">क्या पुराने प्रश्न बैंक इम्पोर्ट कर सकते हैं?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">Yes! You can import 100-200+ questions in one click using CSV format. We provide a sample CSV template — just fill it and upload.</span>
+        <span data-lang="hi">हाँ! CSV फॉर्मेट में 100-200+ प्रश्न एक क्लिक में इम्पोर्ट कर सकते हैं। हम सैंपल CSV टेम्प्लेट प्रदान करते हैं — बस भरें और अपलोड करें।</span>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">Is my data safe? Can competitors see it?</span><span data-lang="hi">क्या मेरा डेटा सुरक्षित रहेगा? क्या प्रतियोगी देख सकते हैं?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">Your data is completely isolated. Hosted on AWS with enterprise-grade security. No other organization can see your data. 100% private and secure.</span>
+        <span data-lang="hi">आपका डेटा पूरी तरह अलग है। AWS पर एंटरप्राइज़-ग्रेड सुरक्षा के साथ होस्ट किया गया है। कोई अन्य कोचिंग सेंटर आपका डेटा नहीं देख सकता। 100% निजी और सुरक्षित।</span>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">How long does setup take?</span><span data-lang="hi">सेटअप में कितना समय लगेगा?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">Our team helps you get onboarded. Basic platform setup takes 1-2 hours. You can run your first test the same day.</span>
+        <span data-lang="hi">हमारी टीम आपको ऑनबोर्ड करने में मदद करती है। प्लेटफ़ॉर्म का बेसिक सेटअप 1-2 घंटे में हो जाता है। पहला टेस्ट आप उसी दिन ले सकते हैं।</span>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span><span data-lang="en">Can I create JEE/NEET pattern tests?</span><span data-lang="hi">क्या JEE/NEET पैटर्न के टेस्ट बन सकते हैं?</span></span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <span data-lang="en">Yes! Supports sectional tests — Section A, B, C separately. Negative marking, per-section time limits — everything configurable according to JEE/NEET pattern.</span>
+        <span data-lang="hi">हाँ! सेक्शनल टेस्ट सपोर्ट करता है — Section A, B, C अलग-अलग। नेगेटिव मार्किंग, प्रति-सेक्शन टाइम लिमिट — सब कुछ JEE/NEET पैटर्न के अनुसार कॉन्फ़िगर करने योग्य।</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-section" id="demo">
+  <div class="reveal">
+    <h2 data-lang="en">Ready? <span>Start Now —</span><br/>14 Days Free</h2>
+    <h2 data-lang="hi">तैयार हैं? <span>अभी शुरू करें —</span><br/>14 दिन फ्री</h2>
+    <p data-lang="en">No credit card needed. Our team will help with setup. Digitize your institute today.</p>
+    <p data-lang="hi">कोई क्रेडिट कार्ड नहीं चाहिए। सेटअप में हमारी टीम मदद करेगी। आज ही अपने संस्थान को डिजिटल करें।</p>
+    <div class="cta-btns">
+      <a href="mailto:surajkannujiya517@gmail.com?subject=Demo%20Request&body=Hello%2C%20I%20want%20to%20book%20a%20demo%20for%20my%20institute." class="btn btn-accent btn-lg">
+        <span data-lang="en">📅 Schedule a Demo</span>
+        <span data-lang="hi">📅 डेमो शेड्यूल करें</span>
+      </a>
+      <a href="https://wa.me/917357780688?text=Hello%2C%20I%20want%20to%20know%20about%20ExamSaaS%20for%20my%20institute." class="btn btn-primary btn-lg">
+        <span data-lang="en">💬 WhatsApp Us</span>
+        <span data-lang="hi">💬 WhatsApp करें</span>
+      </a>
+    </div>
+    <p style="margin-top:24px; font-size:0.82rem; color:var(--muted);">
+      <span data-lang="en">📞 Or call: <strong style="color:#fff;">+91 73577 80688</strong> &nbsp;•&nbsp; 📧 <strong style="color:#fff;">surajkannujiya517@gmail.com</strong></span>
+      <span data-lang="hi">📞 या कॉल करें: <strong style="color:#fff;">+91 73577 80688</strong> &nbsp;•&nbsp; 📧 <strong style="color:#fff;">surajkannujiya517@gmail.com</strong></span>
+    </p>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="text-decoration:none; display:inline-flex;">
+        <div class="logo-icon">E</div>
+        <div class="logo-text">Exam<span>SaaS</span></div>
+      </a>
+      <p data-lang="en">India's most powerful online examination platform — built for educational institutes. Fully bilingual, AI-powered, and enterprise-secure.</p>
+      <p data-lang="hi">भारत का सबसे शक्तिशाली ऑनलाइन परीक्षा प्लेटफ़ॉर्म — शैक्षणिक संस्थानों के लिए बना। पूरी तरह द्विभाषी, AI-संचालित, और एंटरप्राइज़-सुरक्षित।</p>
+    </div>
+    <div class="footer-col">
+      <h4><span data-lang="en">Platform</span><span data-lang="hi">प्लेटफ़ॉर्म</span></h4>
+      <ul>
+        <li><a href="#features"><span data-lang="en">Features</span><span data-lang="hi">विशेषताएँ</span></a></li>
+
+        <li><a href="#how"><span data-lang="en">How it Works</span><span data-lang="hi">कैसे काम करता है</span></a></li>
+        <li><a href="#demo"><span data-lang="en">Free Trial</span><span data-lang="hi">फ्री ट्रायल</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4><span data-lang="en">Use Cases</span><span data-lang="hi">उपयोग</span></h4>
+      <ul>
+        <li><a href="#">JEE Preparation</a></li>
+        <li><a href="#">NEET Preparation</a></li>
+        <li><a href="#">UPSC Prep</a></li>
+        <li><a href="#"><span data-lang="en">School Exams</span><span data-lang="hi">स्कूल परीक्षा</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4><span data-lang="en">Contact</span><span data-lang="hi">संपर्क</span></h4>
+      <ul>
+        <li><a href="mailto:surajkannujiya517@gmail.com">surajkannujiya517@gmail.com</a></li>
+        <li><a href="https://wa.me/917357780688">WhatsApp Support</a></li>
+        <li><a href="#"><span data-lang="en">Privacy Policy</span><span data-lang="hi">गोपनीयता नीति</span></a></li>
+        <li><a href="#"><span data-lang="en">Terms of Service</span><span data-lang="hi">सेवा की शर्तें</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>
+      <span data-lang="en">© 2025 ExamSaaS. All rights reserved. Made with ❤️ for Indian Educational Institutes.</span>
+      <span data-lang="hi">© 2025 ExamSaaS. सर्वाधिकार सुरक्षित। भारतीय शैक्षणिक संस्थानों के लिए ❤️ से बनाया गया।</span>
+    </p>
+    <p style="color:var(--primary); font-size:0.82rem; font-weight:600;">🔒 AWS Hosted &nbsp;•&nbsp; SSL Secured &nbsp;•&nbsp; 99.9% Uptime</p>
+  </div>
+</footer>
+
+<script>
+  // Language switching
+  function setLang(lang) {
+    if (lang === 'hi') {
+      document.body.classList.add('lang-hi');
+    } else {
+      document.body.classList.remove('lang-hi');
+    }
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
+    localStorage.setItem('lang', lang);
+  }
+  // Restore from localStorage
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang === 'hi') setLang('hi');
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Scroll reveal
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Stagger reveals
+  document.querySelectorAll('.problems-grid, .features-grid, .testi-grid').forEach(grid => {
+    [...grid.children].forEach((child, i) => { child.style.transitionDelay = (i * 0.08) + 's'; });
+  });
+
+  // Active nav state
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 100) current = sec.getAttribute('id'); });
+    navLinks.forEach(link => { link.style.color = link.getAttribute('href') === '#' + current ? '#fff' : ''; });
+  });
+</script>
+</body>
+</html>
