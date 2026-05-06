@@ -380,6 +380,58 @@
     .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.15; }
     .orb1 { width: 500px; height: 500px; background: var(--primary); top: -100px; right: -150px; }
     .orb2 { width: 400px; height: 400px; background: var(--pink); bottom: 200px; left: -100px; }
+
+    /* ========== VIDEO DEMO ========== */
+    .video-demo { background: var(--bg2); padding: 100px 5%; }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      max-width: 1200px;
+      margin: 56px auto 0;
+    }
+    .video-card {
+      background: var(--card);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .video-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(99,102,241,0.5);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .video-container {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-bottom: 1px solid var(--border);
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: none;
+    }
+    .video-info {
+      padding: 18px 24px;
+      background: rgba(255,255,255,0.01);
+    }
+    .video-info h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .video-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .video-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
   </style>
 </head>
 <body>
@@ -397,6 +449,7 @@
     <li><a href="#features"><span data-lang="en">Features</span><span data-lang="hi">विशेषताएँ</span></a></li>
     <li><a href="#how"><span data-lang="en">How it Works</span><span data-lang="hi">कैसे काम करता है</span></a></li>
 
+    <li><a href="#demo-video"><span data-lang="en">Video Library</span><span data-lang="hi">वीडियो लाइब्रेरी</span></a></li>
     <li><a href="#faq"><span data-lang="en">FAQ</span><span data-lang="hi">सवाल-जवाब</span></a></li>
   </ul>
   <div class="nav-cta">
@@ -439,9 +492,9 @@
       <span data-lang="en">📅 Book a Free Demo</span>
       <span data-lang="hi">📅 फ्री डेमो बुक करें</span>
     </a>
-    <a href="#features" class="btn btn-outline btn-lg">
-      <span data-lang="en">See Features →</span>
-      <span data-lang="hi">विशेषताएँ देखें →</span>
+    <a href="#demo-video" class="btn btn-outline btn-lg">
+      <span data-lang="en">🎬 Watch Demo</span>
+      <span data-lang="hi">🎬 डेमो देखें</span>
     </a>
   </div>
 
@@ -702,6 +755,79 @@
         <div class="ai-opt">D) Different bodies in same direction</div>
       </div>
       <div style="text-align:center; margin-top:16px; font-size:0.78rem; color:var(--muted);">⚡ 5 more questions generated... Auto-saved to Question Bank</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== VIDEO GALLERY ========== -->
+<section class="video-demo" id="demo-video">
+  <div class="center reveal">
+    <div class="section-label">
+      <span data-lang="en">Platform Tutorials</span>
+      <span data-lang="hi">प्लेटफ़ॉर्म ट्यूटोरियल</span>
+    </div>
+    <h2 class="section-title" data-lang="en">Master ExamSaaS <span class="g">in Minutes</span></h2>
+    <h2 class="section-title" data-lang="hi">ExamSaaS में <span class="g">महारत हासिल करें</span></h2>
+    <p class="section-sub" data-lang="en">
+      Watch these video guides to understand how to set up your institute and run automated exams.
+    </p>
+    <p class="section-sub" data-lang="hi">
+      अपना संस्थान सेटअप करने और ऑटोमैटिक परीक्षा चलाने का तरीका समझने के लिए ये वीडियो गाइड देखें।
+    </p>
+  </div>
+
+  <div class="video-grid reveal">
+    <!-- Video 1: Full Overview -->
+    <div class="video-card">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/8ulJs0Kl7zM" title="ExamSaaS Full Overview" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Complete Platform Overview</h4>
+        <h4 data-lang="hi">प्लेटफ़ॉर्म का पूरा ओवरव्यू</h4>
+        <p data-lang="en">Everything you need to know about ExamSaaS.</p>
+        <p data-lang="hi">ExamSaaS के बारे में वह सब कुछ जो आपको जानना आवश्यक है।</p>
+      </div>
+    </div>
+
+    <!-- Video 2: Management -->
+    <div class="video-card">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/1aSry0aOWoo" title="Student & Teacher Management" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Managing Your Institute</h4>
+        <h4 data-lang="hi">अपने संस्थान का प्रबंधन</h4>
+        <p data-lang="en">How to add students, batches and teachers easily.</p>
+        <p data-lang="hi">छात्रों, बैचों और शिक्षकों को आसानी से जोड़ने का तरीका।</p>
+      </div>
+    </div>
+
+    <!-- Video 3: AI Generation -->
+    <div class="video-card">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/BMqj-tTM0BY" title="AI Question Generation" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">AI Question Generation</h4>
+        <h4 data-lang="hi">AI प्रश्न जनरेशन</h4>
+        <p data-lang="en">Generate 30+ bilingual questions in under 2 minutes.</p>
+        <p data-lang="hi">2 मिनट से कम समय में 30+ द्विभाषी प्रश्न जनरेट करें।</p>
+      </div>
+    </div>
+
+    <!-- Video 4: Short Highlights -->
+    <div class="video-card">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/6niK5oQ7zB8" title="Quick Feature Highlights" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Quick Feature Highlights</h4>
+        <h4 data-lang="hi">त्वरित विशेषता हाइलाइट्स</h4>
+        <p data-lang="en">Short summary of our most powerful features.</p>
+        <p data-lang="hi">हमारी सबसे शक्तिशाली विशेषताओं का संक्षिप्त सारांश।</p>
+      </div>
     </div>
   </div>
 </section>
