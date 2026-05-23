@@ -395,25 +395,68 @@
       border-radius: 20px;
       overflow: hidden;
       border: 1px solid var(--border);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      cursor: pointer;
     }
     .video-card:hover {
       transform: translateY(-8px);
       border-color: rgba(99,102,241,0.5);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 50px rgba(99, 102, 241, 0.25);
     }
-    .video-container {
+    
+    /* Custom Thumbnail styles */
+    .video-thumbnail-container {
       position: relative;
       aspect-ratio: 16 / 9;
-      background: #000;
+      background: #090910;
+      overflow: hidden;
       border-bottom: 1px solid var(--border);
     }
-    .video-container iframe {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      border: none;
+    .video-thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
     }
+    .video-card:hover .video-thumbnail {
+      transform: scale(1.05);
+    }
+    .video-play-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .video-card:hover .video-play-overlay {
+      background: rgba(10, 10, 15, 0.3);
+    }
+    .play-btn-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .video-card:hover .play-btn-circle {
+      transform: scale(1.15);
+      box-shadow: 0 8px 25px rgba(99,102,241,0.7);
+      background: linear-gradient(135deg, var(--pink), var(--primary));
+    }
+    .play-icon {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      margin-left: 3px;
+    }
+    
     .video-info {
       padding: 18px 24px;
       background: rgba(255,255,255,0.01);
@@ -458,7 +501,7 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
       border-color: transparent;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      box-shadow: 0 4px 15px rgba(99,102,241,0.35);
     }
 
     /* Video card filtering effect */
@@ -469,8 +512,83 @@
       display: none;
     }
 
+    /* Premium Video Lightbox Modal */
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(5, 5, 10, 0.85);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .video-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .video-modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 960px;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(99, 102, 241, 0.2);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .video-modal.open .video-modal-content {
+      transform: scale(1) translateY(0);
+    }
+    .video-modal-iframe-container {
+      width: 100%;
+      height: 100%;
+    }
+    .video-modal-iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: rgba(10, 10, 15, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+      z-index: 2010;
+      line-height: 1;
+    }
+    .video-modal-close:hover {
+      background: var(--pink);
+      border-color: transparent;
+      transform: rotate(90deg);
+    }
+
     @media (max-width: 900px) {
       .video-grid { grid-template-columns: 1fr; gap: 24px; }
+      .video-modal-close {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+      }
     }
   </style>
 </head>
@@ -818,140 +936,195 @@
 
     <!-- Video tabs for filtering -->
     <div class="video-tabs">
-      <button class="video-tab-btn active" onclick="filterVideos('all', this)">
+      <button class="video-tab-btn active" onclick="filterVideos('all', this); event.stopPropagation();">
         <span data-lang="en">All Videos</span><span data-lang="hi">सभी वीडियो</span>
       </button>
-      <button class="video-tab-btn" onclick="filterVideos('overview', this)">
-        <span data-lang="en">Overview & Highlights</span><span data-lang="hi">ओवरव्यू और हाइलाइट्स</span>
-      </button>
-      <button class="video-tab-btn" onclick="filterVideos('ai', this)">
+      <button class="video-tab-btn" onclick="filterVideos('ai', this); event.stopPropagation();">
         <span data-lang="en">AI & Test Creation</span><span data-lang="hi">AI और टेस्ट निर्माण</span>
       </button>
-      <button class="video-tab-btn" onclick="filterVideos('onboard', this)">
-        <span data-lang="en">Student Management</span><span data-lang="hi">छात्र प्रबंधन</span>
+      <button class="video-tab-btn" onclick="filterVideos('onboard', this); event.stopPropagation();">
+        <span data-lang="en">Student Onboarding</span><span data-lang="hi">छात्र ऑनबोर्डिंग</span>
+      </button>
+      <button class="video-tab-btn" onclick="filterVideos('mobile', this); event.stopPropagation();">
+        <span data-lang="en">Mobile App</span><span data-lang="hi">मोबाइल ऐप</span>
       </button>
     </div>
   </div>
 
   <div class="video-grid reveal">
-    <!-- Video 1: Full Overview -->
-    <div class="video-card" data-category="overview">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/8ulJs0Kl7zM?modestbranding=1&rel=0" title="ExamSaaS Full Overview" allowfullscreen></iframe>
+    <!-- Video 1: Create Tests via Assessment Builder -->
+    <div class="video-card" data-category="ai" onclick="openVideoModal('8ulJs0Kl7zM')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/8ulJs0Kl7zM/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Complete Platform Overview</h4>
-        <h4 data-lang="hi">प्लेटफ़ॉर्म का पूरा ओवरव्यू</h4>
-        <p data-lang="en">Everything you need to know about ExamSaaS.</p>
-        <p data-lang="hi">ExamSaaS के बारे में वह सब कुछ जो आपको जानना आवश्यक है।</p>
+        <h4 data-lang="en">Create Tests via Assessment Builder</h4>
+        <h4 data-lang="hi">असेसमेंट बिल्डर द्वारा टेस्ट निर्माण</h4>
+        <p data-lang="en">Learn how to design custom tests with JEE/NEET patterns.</p>
+        <p data-lang="hi">जानें कि JEE/NEET पैटर्न के साथ कस्टम असेसमेंट कैसे डिज़ाइन करें।</p>
       </div>
     </div>
 
-    <!-- Video 2: Management -->
-    <div class="video-card" data-category="onboard">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/1aSry0aOWoo?modestbranding=1&rel=0" title="Student & Teacher Management" allowfullscreen></iframe>
+    <!-- Video 2: Onboard Students via Name & Email -->
+    <div class="video-card" data-category="onboard" onclick="openVideoModal('1aSry0aOWoo')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/1aSry0aOWoo/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Managing Your Institute</h4>
-        <h4 data-lang="hi">अपने संस्थान का प्रबंधन</h4>
-        <p data-lang="en">How to add students, batches and teachers easily.</p>
-        <p data-lang="hi">छात्रों, बैचों और शिक्षकों को आसानी से जोड़ने का तरीका।</p>
+        <h4 data-lang="en">Onboard Students via Name & Email</h4>
+        <h4 data-lang="hi">नाम और ईमेल से छात्रों को ऑनबोर्ड करना</h4>
+        <p data-lang="en">Quickly add students using their names and email IDs.</p>
+        <p data-lang="hi">छात्रों को उनके नाम और ईमेल का उपयोग करके आसानी से जोड़ें।</p>
       </div>
     </div>
 
-    <!-- Video 3: AI Question Generation -->
-    <div class="video-card" data-category="ai">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/BMqj-tTM0BY?modestbranding=1&rel=0" title="AI Question Generation" allowfullscreen></iframe>
+    <!-- Video 3: Synthesize & Create Questions -->
+    <div class="video-card" data-category="ai" onclick="openVideoModal('BMqj-tTM0BY')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/BMqj-tTM0BY/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">AI Question Generation</h4>
-        <h4 data-lang="hi">AI प्रश्न जनरेशन</h4>
-        <p data-lang="en">Generate 30+ bilingual questions in under 2 minutes.</p>
-        <p data-lang="hi">2 मिनट से कम समय में 30+ द्विभाषी प्रश्न जनरेट करें।</p>
+        <h4 data-lang="en">Synthesize & Create Questions</h4>
+        <h4 data-lang="hi">प्रश्नों को सिंथेसाइज करके जोड़ना</h4>
+        <p data-lang="en">Generate and synthesize new questions dynamically.</p>
+        <p data-lang="hi">गतिशील रूप से नए प्रश्न जनरेट और सिंथेसाइज करें।</p>
       </div>
     </div>
 
-    <!-- Video 4: Short Highlights -->
-    <div class="video-card" data-category="overview">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/6niK5oQ7zB8?modestbranding=1&rel=0" title="Quick Feature Highlights" allowfullscreen></iframe>
+    <!-- Video 4: Student Mobile App Access -->
+    <div class="video-card" data-category="mobile" onclick="openVideoModal('6niK5oQ7zB8')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/6niK5oQ7zB8/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Quick Feature Highlights</h4>
-        <h4 data-lang="hi">त्वरित विशेषता हाइलाइट्स</h4>
-        <p data-lang="en">Short summary of our most powerful features.</p>
-        <p data-lang="hi">हमारी सबसे शक्तिशाली विशेषताओं का संक्षिप्त सारांश।</p>
+        <h4 data-lang="en">Student Mobile App Access</h4>
+        <h4 data-lang="hi">छात्रों द्वारा मोबाइल ऐप से टेस्ट देना</h4>
+        <p data-lang="en">How students can access and attempt tests via mobile app.</p>
+        <p data-lang="hi">छात्र मोबाइल ऐप के माध्यम से टेस्ट कैसे देख और दे सकते हैं।</p>
       </div>
     </div>
 
-    <!-- Video 5: Question creation through AI Prompt -->
-    <div class="video-card" data-category="ai">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/KYEMakQrxrw?modestbranding=1&rel=0" title="Question creation through AI Prompt" allowfullscreen></iframe>
+    <!-- Video 5: AI Prompt Question Creation -->
+    <div class="video-card" data-category="ai" onclick="openVideoModal('KYEMakQrxrw')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/KYEMakQrxrw/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Question Creation via AI Prompt</h4>
-        <h4 data-lang="hi">AI प्रॉम्प्ट से प्रश्न बनाएं</h4>
-        <p data-lang="en">Enter a prompt to generate premium exam questions instantly.</p>
-        <p data-lang="hi">प्रीमियम परीक्षा प्रश्न तुरंत जनरेट करने के लिए एक प्रॉम्प्ट दर्ज करें।</p>
+        <h4 data-lang="en">AI Prompt Question Creation</h4>
+        <h4 data-lang="hi">AI प्रॉम्प्ट से प्रश्न निर्माण</h4>
+        <p data-lang="en">Use simple prompts to let AI auto-generate premium questions.</p>
+        <p data-lang="hi">सरल प्रॉम्प्ट लिखकर AI से ऑटोमैटिक प्रश्न तैयार करवाएं।</p>
       </div>
     </div>
 
-    <!-- Video 6: Question creation through synthesize question -->
-    <div class="video-card" data-category="ai">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/uxf3K4C_dvo?modestbranding=1&rel=0" title="Question creation through synthesize question" allowfullscreen></iframe>
+    <!-- Video 6: Advanced Question Synthesis -->
+    <div class="video-card" data-category="ai" onclick="openVideoModal('uxf3K4C_dvo')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/uxf3K4C_dvo/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Question Synthesize System</h4>
-        <h4 data-lang="hi">प्रश्नों को सिंथेसाइज करके प्रश्न बनाएं</h4>
-        <p data-lang="en">Synthesize and tailor questions dynamically based on topics.</p>
-        <p data-lang="hi">विषयों के आधार पर गतिशील रूप से प्रश्नों को संश्लेषित और अनुकूलित करें।</p>
+        <h4 data-lang="en">Advanced Question Synthesis</h4>
+        <h4 data-lang="hi">प्रश्न संश्लेषण प्रणाली</h4>
+        <p data-lang="en">In-depth walkthrough of the synthesize question feature.</p>
+        <p data-lang="hi">प्रश्न संश्लेषण (synthesize) फीचर का विस्तृत ओवरव्यू।</p>
       </div>
     </div>
 
-    <!-- Video 7: Student On Boarding by organization -->
-    <div class="video-card" data-category="onboard">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/Rwv0d7rCs80?modestbranding=1&rel=0" title="Student On Boarding by organization" allowfullscreen></iframe>
+    <!-- Video 7: Complete Student Onboarding -->
+    <div class="video-card" data-category="onboard" onclick="openVideoModal('Rwv0d7rCs80')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/Rwv0d7rCs80/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Quick Student Onboarding</h4>
-        <h4 data-lang="hi">त्वरित छात्र ऑनबोर्डिंग</h4>
-        <p data-lang="en">Smoothly onboard bulk students to your online classes.</p>
-        <p data-lang="hi">ऑनलाइन कक्षाओं में थोक में छात्रों को आसानी से ऑनबोर्ड करें।</p>
+        <h4 data-lang="en">Complete Student Onboarding</h4>
+        <h4 data-lang="hi">संस्थान द्वारा संपूर्ण छात्र ऑनबोर्डिंग</h4>
+        <p data-lang="en">Full guide on onboarding your students successfully.</p>
+        <p data-lang="hi">अपने छात्रों को सफलतापूर्वक ऑनबोर्ड करने की पूरी गाइड।</p>
       </div>
     </div>
 
-    <!-- Video 8: Student onboard through name and e mail id by organization -->
-    <div class="video-card" data-category="onboard">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/QthYK47BqVg?modestbranding=1&rel=0" title="Direct Invite Onboarding" allowfullscreen></iframe>
+    <!-- Video 8: Direct Student Invitation -->
+    <div class="video-card" data-category="onboard" onclick="openVideoModal('QthYK47BqVg')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/QthYK47BqVg/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Direct Invite Onboarding</h4>
-        <h4 data-lang="hi">सीधे आमंत्रण द्वारा ऑनबोर्डिंग</h4>
-        <p data-lang="en">Onboard students directly via name and email IDs.</p>
-        <p data-lang="hi">नाम और ईमेल आईडी के माध्यम से सीधे छात्रों को ऑनबोर्ड करें।</p>
+        <h4 data-lang="en">Direct Student Invitation</h4>
+        <h4 data-lang="hi">ईमेल और नाम से सीधे आमंत्रण</h4>
+        <p data-lang="en">Send direct invitations to students via name and email IDs.</p>
+        <p data-lang="hi">नाम और ईमेल आईडी के माध्यम से छात्रों को सीधे आमंत्रण भेजें।</p>
       </div>
     </div>
 
-    <!-- Video 9: Test Create Through AI -->
-    <div class="video-card" data-category="ai">
-      <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/n4wGUNbypao?modestbranding=1&rel=0" title="Auto Test Creation by AI" allowfullscreen></iframe>
+    <!-- Video 9: Full Test Creation via AI -->
+    <div class="video-card" data-category="ai" onclick="openVideoModal('n4wGUNbypao')">
+      <div class="video-thumbnail-container">
+        <img class="video-thumbnail" src="https://img.youtube.com/vi/n4wGUNbypao/hqdefault.jpg" alt="Video Thumbnail">
+        <div class="video-play-overlay">
+          <div class="play-btn-circle">
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
       </div>
       <div class="video-info">
-        <h4 data-lang="en">Auto Test Creation by AI</h4>
-        <h4 data-lang="hi">AI द्वारा ऑटो टेस्ट निर्माण</h4>
-        <p data-lang="en">Design and compile complete exams automatically using AI.</p>
-        <p data-lang="hi">AI का उपयोग करके स्वचालित रूप से पूरी परीक्षाएं डिज़ाइन और संकलित करें।</p>
+        <h4 data-lang="en">Full Test Creation via AI</h4>
+        <h4 data-lang="hi">AI द्वारा संपूर्ण टेस्ट तैयार करना</h4>
+        <p data-lang="en">Create a complete online test paper using AI power in 2 minutes.</p>
+        <p data-lang="hi">2 मिनट में AI की शक्ति से पूरा ऑनलाइन टेस्ट पेपर तैयार करें।</p>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ========== VIDEO MODAL LIGHTBOX ========== -->
+<div id="videoModal" class="video-modal" onclick="closeVideoModal()">
+  <div class="video-modal-content" onclick="event.stopPropagation()">
+    <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
+    <div class="video-modal-iframe-container">
+      <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
 
 <!-- ========== HOW IT WORKS ========== -->
 <section class="how" id="how">
@@ -1214,6 +1387,23 @@
 </footer>
 
 <script>
+  // Video modal handling
+  function openVideoModal(videoId) {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('modalIframe');
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0`;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('modalIframe');
+    iframe.src = '';
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   // Video filtering
   function filterVideos(category, btn) {
     document.querySelectorAll('.video-tab-btn').forEach(b => b.classList.remove('active'));
