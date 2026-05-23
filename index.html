@@ -429,6 +429,46 @@
       color: var(--muted);
     }
 
+    /* Video Tabs styling */
+    .video-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 40px auto 0;
+      flex-wrap: wrap;
+      max-width: 800px;
+    }
+    .video-tab-btn {
+      padding: 10px 24px;
+      border-radius: 50px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .video-tab-btn:hover {
+      background: rgba(99, 102, 241, 0.16);
+      color: #fff;
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+    .video-tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    }
+
+    /* Video card filtering effect */
+    .video-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .video-card.hidden {
+      display: none;
+    }
+
     @media (max-width: 900px) {
       .video-grid { grid-template-columns: 1fr; gap: 24px; }
     }
@@ -770,16 +810,32 @@
     <h2 class="section-title" data-lang="en">Master ExamSaaS <span class="g">in Minutes</span></h2>
     <h2 class="section-title" data-lang="hi">ExamSaaS में <span class="g">महारत हासिल करें</span></h2>
     <p class="section-sub" data-lang="en">
-      Watch these video guides to understand how to set up your institute and run automated exams.
+      Explore our comprehensive video library to master all features of the online exam platform.
     </p>
     <p class="section-sub" data-lang="hi">
-      अपना संस्थान सेटअप करने और ऑटोमैटिक परीक्षा चलाने का तरीका समझने के लिए ये वीडियो गाइड देखें।
+      ऑनलाइन परीक्षा प्लेटफ़ॉर्म के सभी फीचर्स में महारत हासिल करने के लिए हमारी व्यापक वीडियो लाइब्रेरी देखें।
     </p>
+
+    <!-- Video tabs for filtering -->
+    <div class="video-tabs">
+      <button class="video-tab-btn active" onclick="filterVideos('all', this)">
+        <span data-lang="en">All Videos</span><span data-lang="hi">सभी वीडियो</span>
+      </button>
+      <button class="video-tab-btn" onclick="filterVideos('overview', this)">
+        <span data-lang="en">Overview & Highlights</span><span data-lang="hi">ओवरव्यू और हाइलाइट्स</span>
+      </button>
+      <button class="video-tab-btn" onclick="filterVideos('ai', this)">
+        <span data-lang="en">AI & Test Creation</span><span data-lang="hi">AI और टेस्ट निर्माण</span>
+      </button>
+      <button class="video-tab-btn" onclick="filterVideos('onboard', this)">
+        <span data-lang="en">Student Management</span><span data-lang="hi">छात्र प्रबंधन</span>
+      </button>
+    </div>
   </div>
 
   <div class="video-grid reveal">
     <!-- Video 1: Full Overview -->
-    <div class="video-card">
+    <div class="video-card" data-category="overview">
       <div class="video-container">
         <iframe src="https://www.youtube.com/embed/8ulJs0Kl7zM?modestbranding=1&rel=0" title="ExamSaaS Full Overview" allowfullscreen></iframe>
       </div>
@@ -792,7 +848,7 @@
     </div>
 
     <!-- Video 2: Management -->
-    <div class="video-card">
+    <div class="video-card" data-category="onboard">
       <div class="video-container">
         <iframe src="https://www.youtube.com/embed/1aSry0aOWoo?modestbranding=1&rel=0" title="Student & Teacher Management" allowfullscreen></iframe>
       </div>
@@ -804,8 +860,8 @@
       </div>
     </div>
 
-    <!-- Video 3: AI Generation -->
-    <div class="video-card">
+    <!-- Video 3: AI Question Generation -->
+    <div class="video-card" data-category="ai">
       <div class="video-container">
         <iframe src="https://www.youtube.com/embed/BMqj-tTM0BY?modestbranding=1&rel=0" title="AI Question Generation" allowfullscreen></iframe>
       </div>
@@ -818,7 +874,7 @@
     </div>
 
     <!-- Video 4: Short Highlights -->
-    <div class="video-card">
+    <div class="video-card" data-category="overview">
       <div class="video-container">
         <iframe src="https://www.youtube.com/embed/6niK5oQ7zB8?modestbranding=1&rel=0" title="Quick Feature Highlights" allowfullscreen></iframe>
       </div>
@@ -827,6 +883,71 @@
         <h4 data-lang="hi">त्वरित विशेषता हाइलाइट्स</h4>
         <p data-lang="en">Short summary of our most powerful features.</p>
         <p data-lang="hi">हमारी सबसे शक्तिशाली विशेषताओं का संक्षिप्त सारांश।</p>
+      </div>
+    </div>
+
+    <!-- Video 5: Question creation through AI Prompt -->
+    <div class="video-card" data-category="ai">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/KYEMakQrxrw?modestbranding=1&rel=0" title="Question creation through AI Prompt" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Question Creation via AI Prompt</h4>
+        <h4 data-lang="hi">AI प्रॉम्प्ट से प्रश्न बनाएं</h4>
+        <p data-lang="en">Enter a prompt to generate premium exam questions instantly.</p>
+        <p data-lang="hi">प्रीमियम परीक्षा प्रश्न तुरंत जनरेट करने के लिए एक प्रॉम्प्ट दर्ज करें।</p>
+      </div>
+    </div>
+
+    <!-- Video 6: Question creation through synthesize question -->
+    <div class="video-card" data-category="ai">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/uxf3K4C_dvo?modestbranding=1&rel=0" title="Question creation through synthesize question" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Question Synthesize System</h4>
+        <h4 data-lang="hi">प्रश्नों को सिंथेसाइज करके प्रश्न बनाएं</h4>
+        <p data-lang="en">Synthesize and tailor questions dynamically based on topics.</p>
+        <p data-lang="hi">विषयों के आधार पर गतिशील रूप से प्रश्नों को संश्लेषित और अनुकूलित करें।</p>
+      </div>
+    </div>
+
+    <!-- Video 7: Student On Boarding by organization -->
+    <div class="video-card" data-category="onboard">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/Rwv0d7rCs80?modestbranding=1&rel=0" title="Student On Boarding by organization" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Quick Student Onboarding</h4>
+        <h4 data-lang="hi">त्वरित छात्र ऑनबोर्डिंग</h4>
+        <p data-lang="en">Smoothly onboard bulk students to your online classes.</p>
+        <p data-lang="hi">ऑनलाइन कक्षाओं में थोक में छात्रों को आसानी से ऑनबोर्ड करें।</p>
+      </div>
+    </div>
+
+    <!-- Video 8: Student onboard through name and e mail id by organization -->
+    <div class="video-card" data-category="onboard">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/QthYK47BqVg?modestbranding=1&rel=0" title="Direct Invite Onboarding" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Direct Invite Onboarding</h4>
+        <h4 data-lang="hi">सीधे आमंत्रण द्वारा ऑनबोर्डिंग</h4>
+        <p data-lang="en">Onboard students directly via name and email IDs.</p>
+        <p data-lang="hi">नाम और ईमेल आईडी के माध्यम से सीधे छात्रों को ऑनबोर्ड करें।</p>
+      </div>
+    </div>
+
+    <!-- Video 9: Test Create Through AI -->
+    <div class="video-card" data-category="ai">
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/n4wGUNbypao?modestbranding=1&rel=0" title="Auto Test Creation by AI" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <h4 data-lang="en">Auto Test Creation by AI</h4>
+        <h4 data-lang="hi">AI द्वारा ऑटो टेस्ट निर्माण</h4>
+        <p data-lang="en">Design and compile complete exams automatically using AI.</p>
+        <p data-lang="hi">AI का उपयोग करके स्वचालित रूप से पूरी परीक्षाएं डिज़ाइन और संकलित करें।</p>
       </div>
     </div>
   </div>
@@ -1093,6 +1214,20 @@
 </footer>
 
 <script>
+  // Video filtering
+  function filterVideos(category, btn) {
+    document.querySelectorAll('.video-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.video-card').forEach(card => {
+      if (category === 'all' || card.getAttribute('data-category') === category) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
   // Language switching
   function setLang(lang) {
     if (lang === 'hi') {
